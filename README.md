@@ -1,2 +1,5 @@
 # python_experiments
-A few unit tests for python that looks unfamiliar
+
+Discretely disguised name for things in python that I didn't understand and needed to test
+
+
