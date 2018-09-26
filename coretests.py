@@ -194,6 +194,20 @@ class TestNumpyArrays(unittest.TestCase):
             # self.assertEqual(array_0_result, 3)
             # self.assertEqual(array_1_result, 7)
 
+
+    def test3DComplete(self):
+        probs = np.array([[[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1]]])
+
+        if (self.DEBUG):
+            Debug.printClassAndFunction(self)
+            print("Probs shape: {}".format(probs.shape))
+            print("probs: {}".format(probs))
+            print("probs [0][0][0]: {}".format(probs[0][0][0]))
+            print("probs [0][1][0]: {}".format(probs[0][1][0]))
+            print("probs [0][0][1]: {}".format(probs[0][0][1]))
+
+
+
     def testBasicNumpyArraySlice(self):
         """ Point here: Slice referencing is x[start:stop:step]
             note - assert uses np.all function to make arrays with
