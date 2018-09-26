@@ -4,7 +4,6 @@ import inspect
 import numpy as np
 from termcolor import colored
 
-
 class Debug:
 
     class bcolors:
@@ -207,7 +206,6 @@ class TestNumpyArrays(unittest.TestCase):
             print("probs [0][0][1]: {}".format(probs[0][0][1]))
 
 
-
     def testBasicNumpyArraySlice(self):
         """ Point here: Slice referencing is x[start:stop:step]
             note - assert uses np.all function to make arrays with
@@ -224,16 +222,12 @@ class TestNumpyArrays(unittest.TestCase):
         # start 3, stop end, step 2
         array_1_result = oneD[3::2]
 
-
         if (self.DEBUG):
             Debug.printClassAndFunction(self)
             print("the numpy array: {0}".format(oneD))
             print("oneD[3:10:2]: {0}".format(array_0_result))
             print("oneD[3::2]: {0}".format(array_1_result))
 
-        # TODO: remember last week
-        # self.assertEqual(np.all(array_0_result, [4, 6, 9, 11]))
-        # self.assertEqual(np.all(array_1_result, [4, 6, 9, 11]))
 
     def testSplatOperator(self):
         """ Point here: A mysterious operator is demystified 
@@ -251,6 +245,23 @@ class TestNumpyArrays(unittest.TestCase):
             print("TwoD Numpy Array without splatification: {}".format(twoD))
             print()
             print("TwoD Numpy Array with splatification (i.e. *twoD ) : {}".format(splatted))
+
+    def test3DSliceComplete(self):
+        probs   = np.array([[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1]])
+        probs_1 = np.array([[[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1]], [[.4, .4, .5, .9], [.9, .1, .2, .3]]])
+        probs_2 = np.array([[[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1], [.4, .4, .5, .9], [.9, .1, .2, .3]]])
+
+        if (self.DEBUG):
+            Debug.printClassAndFunction(self)
+            print("Probs shape: {}".format(probs.shape))
+            print("probs: {}".format(probs))
+            print("probs [0][1]: {}".format(probs[0:1]))
+            print("Probs_1 shape: {}".format(probs_1.shape))
+            print("probs_1 = np.array([[[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1]], [[.4, .4, .5, .9], [.9, .1, .2, .3]]])")
+            print("probs [0][1]: {}".format(probs_1[0:1]))
+            print("Probs_2 shape: {}".format(probs_2.shape))
+            print("Probs_2: np.array([[[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1], [.4, .4, .5, .9], [.9, .1, .2, .3]]])")
+            print("probs_2 [0][1]: {}".format(probs_2[0:1]))
 
 
 if __name__ == '__main__':
