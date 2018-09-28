@@ -92,6 +92,27 @@ class TestLists(unittest.TestCase):
         self.assertNotEqual(result, 3)
         self.assertEqual(result, 4)
 
+    
+    # test list with index function for a range
+    def test_none_slice(self):
+        """ Slicing with none... 
+        """
+
+        a = np.random.rand(10)
+
+        # get the first 333 starting at pos 4
+        result = a[None, :]
+        result_2 = a[:, None]
+
+        if (self.DEBUG):
+            Debug.printClassAndFunction(self)
+            print("a: {}".format(a))
+            print("result = a[None, :]")
+            print(result)
+            print("result_2 = a[:, None]")
+            print(result_2)
+
+
 
 if __name__ == '__main__':
     unittest.main()
