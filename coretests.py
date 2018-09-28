@@ -131,6 +131,15 @@ class TestNumpyArrays(unittest.TestCase):
     def setUp(self):
         self.DEBUG = True
 
+    def testdoubleSlashOperator(self):
+
+        res = 12 * 3 * 2 // 2
+        if (self.DEBUG):
+            Debug.printClassAndFunction(self)
+            print("12 * 3 * 2 // 2")
+            print("Result: {0}".format(res))
+
+
     # Point here: length is # of rows, not dimensions 
     def testBasicArrayProps(self):
 
