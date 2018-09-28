@@ -2,7 +2,9 @@ import nose
 import unittest
 import inspect
 import numpy as np
+
 from termcolor import colored
+from typing import Dict
 
 class Debug:
 
@@ -262,6 +264,19 @@ class TestNumpyArrays(unittest.TestCase):
             print("Probs_2 shape: {}".format(probs_2.shape))
             print("Probs_2: np.array([[[0.1, 0.6, 0.8, 0.4, 0.9], [0.2, 0.1, 0.6, 0.6, 0.1], [.4, .4, .5, .9], [.9, .1, .2, .3]]])")
             print("probs_2 [0][1]: {}".format(probs_2[0:1]))
+
+
+    def test_jsonStrDict(self):
+
+        intensity : Dict[str, float] = { 'mild': 2.0, 'medium': 5.0, 'hot': 9.0, 'insane': 27 }
+
+        #Same story for tuples
+        # x: Tuple[int, str, float] = (3, "yes", 7.5)
+
+        if (self.DEBUG):
+            Debug.printClassAndFunction(self)
+            print("Our hotsauce on the Marville Scale is rated: {}".format(intensity.get('insane')))
+    
 
 
 if __name__ == '__main__':
