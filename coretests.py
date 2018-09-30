@@ -334,11 +334,13 @@ class indirection_decorators(object):
         print("Hijacked! {}".format(someVar))
 
     def __call__(self, f):
+        print("Call invoked with: {}".format(f))
+
+        # Get a function pointer back
         function = self.f(f)
         print(function)
         function()
         self.hijack(f)
-
 
 @indirection_decorators
 def func1(var):
