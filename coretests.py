@@ -1,48 +1,26 @@
-import nose
 import unittest
 import inspect
 import numpy as np
 
+from testutils import Debug 
 from termcolor import colored
 from typing import Dict
 
-class Debug:
 
-    class bcolors:
-        HEADER = '\033[95m'
-        OKBLUE = '\033[94m'
-        OKGREEN = '\033[92m'
-        WARNING = '\033[93m'
-        FAIL = '\033[91m'
-        ENDC = '\033[0m'
-        BOLD = '\033[1m'
-        UNDERLINE = '\033[4m'
+DEBUG = True
 
-    #  Utility Functions for Testing / Displaying 
+# These have no class
+def imAFunctionInAFunction(name="mycos"):
+    def codeit():
+        return "now you are in the codeit() function"
 
-    def fakeFunction(*nArray):
-        return nArray
+    def testit():
+        return "now you are in the testit() function"
 
-    def printClassAndFunction(self):
-        stack = inspect.stack()
-        the_class = stack[1][0].f_locals["self"].__class__.__name__
-        the_method = stack[1][0].f_code.co_name
-        print()
-        print(colored("----------------------------------------------", 'yellow'))
-        print(colored(the_class + ":", 'green'), colored(the_method, 'blue'))
-        #print(colored("  Test Class/Method {0}.{1}".format(str(the_class), the_method), 'green')
-        print(colored("----------------------------------------------", 'yellow'))
-        print(colored("OUTPUT:", "magenta"))
-
-
-    def getClass(self):
-        fr = inspect.stack()[1][3]
-        args, _, _, value_dict = inspect.getargvalues(fr)
-        if len(args) and args[0] == 'self':
-            instance = value_dict.get('self', None)
-            if instance:
-                return getattr(instance, '__class__', None)
-        return None
+    if name == "qa":
+        return testit 
+    else:
+        return codeit 
 
 
 class TestLists(unittest.TestCase):
@@ -114,10 +92,6 @@ class TestLists(unittest.TestCase):
 
 
 
-if __name__ == '__main__':
-    unittest.main()
-
-
 class TestLanguageFundamental(unittest.TestCase):
 
     # used for DEBUG = True
@@ -126,6 +100,7 @@ class TestLanguageFundamental(unittest.TestCase):
     #     print (inspect.stack()[1][3])
     #     print ("Output:")
     #     print ("********************")
+
 
     def setUp(self):
         self.DEBUG = True
@@ -146,6 +121,24 @@ class TestLanguageFundamental(unittest.TestCase):
 
         self.assertEqual(b[0], a[0])
 
+    def test_imAFunctionInAFunction(self, name="mycos"):
+        def codeit():
+            return "now you are in the codeit() function"
+
+        def testit():
+            return "now you are in the testit() function"
+
+        if name == "qa":
+            return testit 
+        else:
+            return codeit 
+
+        if (self.DEBUG):
+            Debug.printClassAndFunction(self)
+            print(self.test_imAFunctionInAFunction())
+            print(self.test_imAFunctionInAFunction("qa"))
+
+
 
 class TestNumpyArrays(unittest.TestCase):
 
@@ -159,6 +152,7 @@ class TestNumpyArrays(unittest.TestCase):
             Debug.printClassAndFunction(self)
             print("12 * 3 * 2 // 2")
             print("Result: {0}".format(res))
+
 
 
     # Point here: length is # of rows, not dimensions 
@@ -296,18 +290,75 @@ class TestNumpyArrays(unittest.TestCase):
             print("probs_2 [0][1]: {}".format(probs_2[0:1]))
 
 
-    def test_jsonStrDict(self):
 
-        intensity : Dict[str, float] = { 'mild': 2.0, 'medium': 5.0, 'hot': 9.0, 'insane': 27 }
 
-        #Same story for tuples
-        # x: Tuple[int, str, float] = (3, "yes", 7.5)
 
-        if (self.DEBUG):
-            Debug.printClassAndFunction(self)
-            print("Our hotsauce on the Marville Scale is rated: {}".format(intensity.get('insane')))
+def test_jsonStrDict():
     
+    intensity : Dict[str, float] = { 'mild': 2.0, 'medium': 5.0, 'hot': 9.0, 'insane': 27 }
+
+    #Same story for tuples
+    # x: Tuple[int, str, float] = (3, "yes", 7.5)
+
+    if (DEBUG):
+        Debug.printClassAndFunction()
+        print("Our hotsauce on the Marville Scale is rated: {}".format(intensity.get('insane')))
+
+
+# I am the decorator
+class pythonPrimer(object):
+
+    def another_f(self, passed_func):
+        print("""Function called from from a decorator via the decorator's init with
+            a parameter {}""".format(passed_func("qa")))
+
+    def __init__(self, f):
+        print("inside my_decorator.__init__()")
+
+        # self.another_f(f) # Prove that function definition has completed
+        print("End decorator init")
+
+    def __call__(self, f):
+        print("F is: {}".format(f))
+        print("inside my_decorator.__call__()")
+        print("Post Call")
+
+
+# PythonDecorators/entry_exit_class.py
+class indirection_decorators(object):
+
+    def __init__(self, f):
+        self.f = f
+
+    def hijack(self, someVar):
+        print("Hijacked! {}".format(someVar))
+
+    def __call__(self, f):
+        function = self.f(f)
+        print(function)
+        function()
+        self.hijack(f)
+
+
+@indirection_decorators
+def func1(var):
+    print("inside func1() with var: {}".format(var))
+
+    def welcome():
+        print("TOTAL CHAOS")
+
+    def wow():
+        print("CHAOS")
+
+    if var == "snake":
+        return wow 
+    else:
+        return welcome
 
 
 if __name__ == '__main__':
-    unittest.main()
+    #unittest.main()
+    print("After decoration which happens at init")
+    #test_decorated_function("dev")
+    func1("snake")
+    func1("rat")
